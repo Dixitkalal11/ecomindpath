@@ -103,46 +103,16 @@ function Goals() {
       </h1>
       <p className="mt-1 text-muted-foreground">Set a monthly reduction target and track your streak.</p>
 
-      <section className="mt-6 rounded-2xl border bg-card p-5 shadow-sm">
-        {!goal ? (
-          <div>
-            <h2 className="font-semibold">Set a 30-day goal</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Baseline (from your profile): <strong>{baselineMonth} kg / month</strong>
-            </p>
-            <div className="mt-4 flex flex-wrap items-end gap-3">
-              <div className="space-y-2">
-                <Label htmlFor="pct">Reduction target (%)</Label>
-                <Input
-                  id="pct"
-                  type="number"
-                  min={MIN_REDUCTION_PCT}
-                  max={MAX_REDUCTION_PCT}
-                  value={pct}
-                  onChange={(e) => setPct(clampPct(Number(e.target.value)))}
-                  className="w-32"
-                />
-              </div>
-              <Button onClick={setGoalNow}>Start goal</Button>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className="flex items-baseline justify-between">
-              <h2 className="font-semibold">Cut {goal.reduction_pct}% in 30 days</h2>
-              <span className="text-xs text-muted-foreground">{progress.daysLeft} days left</span>
-            </div>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Logged <strong>{progress.logged} kg</strong> · Target <strong>{progress.target} kg</strong>
-            </p>
-            <Progress value={progress.achievedPct} className="mt-3" aria-label={`${progress.achievedPct}% of reduction achieved`} />
-            <div className="mt-3 flex items-center gap-2 text-sm">
-              <Flame className="size-4 text-clay" aria-hidden="true" />
-              <span><strong>{progress.streak}</strong> day logging streak</span>
-            </div>
-          </div>
-        )}
-      </section>
+      <GoalCard
+        goal={goal}
+        progress={progress}
+        baselineMonth={baselineMonth}
+        pct={pct}
+        minPct={MIN_REDUCTION_PCT}
+        maxPct={MAX_REDUCTION_PCT}
+        onPctChange={(raw) => setPct(clampPct(raw))}
+        onStart={setGoalNow}
+      />
 
       <BadgesGrid badges={badges} />
     </main>
