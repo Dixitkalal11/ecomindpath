@@ -14,7 +14,114 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activities: {
+        Row: {
+          category: string
+          co2e_kg: number
+          created_at: string
+          id: string
+          notes: string | null
+          occurred_on: string
+          quantity: number
+          subtype: string
+          unit: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          co2e_kg: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          occurred_on?: string
+          quantity: number
+          subtype: string
+          unit: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          co2e_kg?: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          occurred_on?: string
+          quantity?: number
+          subtype?: string
+          unit?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      goals: {
+        Row: {
+          active: boolean
+          baseline_kg: number
+          created_at: string
+          id: string
+          period_days: number
+          period_start: string
+          reduction_pct: number
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          baseline_kg: number
+          created_at?: string
+          id?: string
+          period_days?: number
+          period_start?: string
+          reduction_pct: number
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          baseline_kg?: number
+          created_at?: string
+          id?: string
+          period_days?: number
+          period_start?: string
+          reduction_pct?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          diet: string
+          energy_source: string
+          household_size: number
+          onboarded: boolean
+          region: string
+          transport_mode: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          diet?: string
+          energy_source?: string
+          household_size?: number
+          onboarded?: boolean
+          region?: string
+          transport_mode?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          diet?: string
+          energy_source?: string
+          household_size?: number
+          onboarded?: boolean
+          region?: string
+          transport_mode?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
