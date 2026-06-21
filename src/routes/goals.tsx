@@ -29,6 +29,12 @@ const WEEK_STREAK_DAYS = 7;
 /** Achievement percentage that unlocks the "halfway" badge. */
 const HALFWAY_PCT = 50;
 
+/** Clamp a raw percentage input into the allowed reduction-target range. */
+function clampPct(raw: number): number {
+  const safe = Number.isFinite(raw) && raw > 0 ? raw : MIN_REDUCTION_PCT;
+  return Math.max(MIN_REDUCTION_PCT, Math.min(MAX_REDUCTION_PCT, safe));
+}
+
 export const Route = createFileRoute("/goals")({
   component: () => (
     <Protected>
