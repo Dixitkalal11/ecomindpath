@@ -1,19 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Flame, Target } from "lucide-react";
+import { Target } from "lucide-react";
 import { toast } from "sonner";
 import { Protected } from "@/components/Protected";
 import { AppHeader } from "@/components/AppHeader";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useActivities, useProfile } from "@/hooks/useEcoData";
 import { estimateBaselineKgPerYear, round } from "@/lib/carbonEngine";
 import { computeGoalProgress, type Goal } from "@/lib/goalProgress";
 import { BadgesGrid, type Badge } from "@/components/goals/BadgesGrid";
+import { GoalCard } from "@/components/goals/GoalCard";
 
 /** Months per year — used to convert annual baseline into a monthly figure. */
 const MONTHS_PER_YEAR = 12;
