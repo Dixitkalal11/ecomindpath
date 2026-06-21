@@ -116,14 +116,7 @@ function Goals() {
                   min={MIN_REDUCTION_PCT}
                   max={MAX_REDUCTION_PCT}
                   value={pct}
-                  onChange={(e) =>
-                    setPct(
-                      Math.max(
-                        MIN_REDUCTION_PCT,
-                        Math.min(MAX_REDUCTION_PCT, Number(e.target.value) || MIN_REDUCTION_PCT),
-                      ),
-                    )
-                  }
+                  onChange={(e) => setPct(clampPct(Number(e.target.value)))}
                   className="w-32"
                 />
               </div>
