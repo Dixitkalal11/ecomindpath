@@ -284,7 +284,9 @@ export function projectReduction(
     .slice(0, topN)
     .reduce((s, r) => s + r.estimatedSavingKgPerWeek, 0);
   const newTotal = Math.max(0, weeklyTotalKg - saving);
-  const reductionPct = weeklyTotalKg > 0 ? (saving / weeklyTotalKg) * 100 : 0;
+  const rawPct = weeklyTotalKg > 0 ? (saving / weeklyTotalKg) * 100 : 0;
+  // Cap at 100 — savings can exceed a tiny weekly total but a >100% cut is meaningless.
+  const reductionPct = Math.min(100, Math.max(0, rawPct));
   return { newTotal: round(newTotal), reductionPct: round(reductionPct) };
 }
 

@@ -57,21 +57,18 @@ describe("end-to-end data flow", () => {
     expect(after).toBeGreaterThan(before);
   });
 
-  it("logging more car trips elevates the transport tip in the ranking", () => {
-    const baselineRecs = generateRecommendations(profile, [logBeef()]);
+  it("logging short car trips surfaces a transport-specific recommendation", () => {
+    const baselineRecs = generateRecommendations(profile, []);
     const heavyCarRecs = generateRecommendations(profile, [
-      logBeef(),
       logTransport(3),
       logTransport(2),
       logTransport(4),
+      logTransport(3),
     ]);
-    const transportInBaseline = baselineRecs.findIndex((r) => r.category === "transport");
-    const transportInHeavy = heavyCarRecs.findIndex((r) => r.category === "transport");
-    // Either the tip wasn't there before OR it ranks higher (lower index) now.
-    expect(transportInHeavy).toBeGreaterThanOrEqual(0);
-    if (transportInBaseline >= 0) {
-      expect(transportInHeavy).toBeLessThanOrEqual(transportInBaseline);
-    }
+    const hadShortTripTip = baselineRecs.some((r) => r.id === "swap-short-car-trips");
+    const hasShortTripTip = heavyCarRecs.some((r) => r.id === "swap-short-car-trips");
+    expect(hadShortTripTip).toBe(false);
+    expect(hasShortTripTip).toBe(true);
   });
 
   it("projection from current week + ranked recommendations yields a reduction percentage between 0 and 100", () => {
