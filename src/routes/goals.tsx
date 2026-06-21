@@ -109,7 +109,22 @@ function Goals() {
             <div className="mt-4 flex flex-wrap items-end gap-3">
               <div className="space-y-2">
                 <Label htmlFor="pct">Reduction target (%)</Label>
-                <Input id="pct" type="number" min={1} max={50} value={pct} onChange={(e) => setPct(Math.max(1, Math.min(50, Number(e.target.value) || 1)))} className="w-32" />
+                <Input
+                  id="pct"
+                  type="number"
+                  min={MIN_REDUCTION_PCT}
+                  max={MAX_REDUCTION_PCT}
+                  value={pct}
+                  onChange={(e) =>
+                    setPct(
+                      Math.max(
+                        MIN_REDUCTION_PCT,
+                        Math.min(MAX_REDUCTION_PCT, Number(e.target.value) || MIN_REDUCTION_PCT),
+                      ),
+                    )
+                  }
+                  className="w-32"
+                />
               </div>
               <Button onClick={setGoalNow}>Start goal</Button>
             </div>
