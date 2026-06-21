@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Award, Flame, Target } from "lucide-react";
+import { Flame, Target } from "lucide-react";
 import { toast } from "sonner";
 import { Protected } from "@/components/Protected";
 import { AppHeader } from "@/components/AppHeader";
@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useActivities, useProfile } from "@/hooks/useEcoData";
 import { estimateBaselineKgPerYear, round } from "@/lib/carbonEngine";
 import { computeGoalProgress, type Goal } from "@/lib/goalProgress";
+import { BadgesGrid, type Badge } from "@/components/goals/BadgesGrid";
 
 /** Months per year — used to convert annual baseline into a monthly figure. */
 const MONTHS_PER_YEAR = 12;
@@ -82,15 +83,15 @@ function Goals() {
     toast.success("Goal set"); void refresh();
   }
 
-  const badges = useMemo(() => {
-    const list: { id: string; label: string; earned: boolean }[] = [
+  const badges = useMemo<Badge[]>(
+    () => [
       { id: "first-log", label: "First log", earned: activities.length >= 1 },
       { id: "week-streak", label: "7-day streak", earned: progress.streak >= WEEK_STREAK_DAYS },
       { id: "halfway", label: "Halfway there", earned: progress.achievedPct >= HALFWAY_PCT },
       { id: "goal-met", label: "Goal achieved", earned: !!goal && progress.logged <= progress.target },
-    ];
-    return list;
-  }, [activities.length, progress, goal]);
+    ],
+    [activities.length, progress, goal],
+  );
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
@@ -147,23 +148,7 @@ function Goals() {
         )}
       </section>
 
-      <section className="mt-6">
-        <h2 className="text-lg font-semibold flex items-center gap-2">
-          <Award className="size-5 text-primary" aria-hidden="true" /> Badges
-        </h2>
-        <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {badges.map((b) => (
-            <li
-              key={b.id}
-              className={`rounded-xl border p-4 text-center text-sm ${b.earned ? "border-primary bg-accent text-accent-foreground" : "bg-card text-muted-foreground"}`}
-              aria-label={`${b.label} ${b.earned ? "earned" : "locked"}`}
-            >
-              <div className="text-2xl" aria-hidden="true">{b.earned ? "🏅" : "🔒"}</div>
-              <div className="mt-1 font-medium">{b.label}</div>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <BadgesGrid badges={badges} />
     </main>
   );
 }
